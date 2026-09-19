@@ -1,1 +1,82 @@
 @import "tailwindcss";
+
+@theme {
+  /* Typography — Rethink Sans for headings, DM Sans for body */
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-heading: var(--font-rethink-sans), ui-sans-serif, system-ui, sans-serif;
+
+  /* Brand blue, sampled from the Ymagen mark (#1086c5, hue 201deg) */
+  --color-brand-300: #6dc4f2;
+  --color-brand-400: #38a9e8;
+  --color-brand-500: #1086c5;
+  --color-brand-600: #0b6da3;
+  --color-brand-700: #08557f;
+
+  /* Canvas + ink */
+  --color-canvas: #03060b;
+  --color-ink-100: #eef5fb;
+  --color-ink-300: #b6c6d6;
+  --color-ink-500: #7e93a8;
+  --color-ink-700: #4a5a6b;
+
+  --animate-rise: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink-100);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    /* The glow sits behind everything; never let it create a scrollbar. */
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--color-brand-500) 45%, transparent);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-400);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  input::placeholder {
+    color: var(--color-ink-700);
+  }
+
+  /* Hide the number-ish spinners some mobile browsers add to tel inputs */
+  input[type="tel"]::-webkit-outer-spin-button,
+  input[type="tel"]::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
