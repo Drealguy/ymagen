@@ -1,22 +1,11 @@
 "use client";
 
 import { useId, useState } from "react";
+import { validatePhone } from "@/lib/phone";
 import { FORMSPREE_ENDPOINT, INSTAGRAM_HANDLE } from "@/lib/site";
 import { InstagramModal } from "./InstagramModal";
 
 type Status = "idle" | "submitting" | "success" | "error";
-
-/** E.164 allows 15 digits at most; 8 is a sensible floor for a dialable number. */
-function validate(raw: string): string | null {
-  const trimmed = raw.trim();
-  if (!trimmed) return "Please enter your WhatsApp number.";
-  if (/[a-z]/i.test(trimmed)) return "Numbers only — letters aren't allowed.";
-
-  const digits = trimmed.replace(/\D/g, "");
-  if (digits.length < 8) return "That number looks too short.";
-  if (digits.length > 15) return "That number looks too long.";
-  return null;
-}
 
 export function NotifySection() {
   const [phone, setPhone] = useState("");
@@ -36,7 +25,7 @@ export function NotifySection() {
       (event.currentTarget.elements.namedItem("_gotcha") as HTMLInputElement | null)
         ?.value ?? "";
 
-    const problem = validate(phone);
+    const problem = validatePhone(phone);
     if (problem) {
       setError(problem);
       setStatus("error");

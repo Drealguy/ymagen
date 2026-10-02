@@ -1,14 +1,28 @@
+import type { Metadata, Viewport } from "next";
 import Image from "next/image";
 import { Background } from "@/components/Background";
 import { Countdown } from "@/components/Countdown";
 import { NotifySection } from "@/components/NotifySection";
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: "Under Maintenance",
+  robots: { index: false, follow: false },
+  alternates: { canonical: "/maintenance" },
+  description:
+    "Ymagen is temporarily offline for maintenance. Leave your WhatsApp number and we'll message you the moment we're back.",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#03060b",
+  colorScheme: "dark",
+};
+
+export default function Maintenance() {
   return (
     <>
       <Background />
 
-      <main className="relative flex min-h-dvh flex-col items-center justify-center px-5 py-16 sm:px-6 sm:py-20">
+      <main className="relative flex min-h-dvh text-ink-100 flex-col items-center justify-center px-5 py-16 sm:px-6 sm:py-20">
         <div className="w-full max-w-2xl text-center">
           {/* Badge */}
           <div className="animate-rise inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/5 py-1.5 pl-1.5 pr-3.5 backdrop-blur-sm">

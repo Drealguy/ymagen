@@ -1,25 +1,86 @@
 @import "tailwindcss";
 
+/*
+ * Ymagen design tokens — the single source of truth for the visual system.
+ * Components use these tokens only; no one-off hex values or font stacks.
+ */
 @theme {
-  /* Typography — Rethink Sans for headings, DM Sans for body */
-  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-heading: var(--font-rethink-sans), ui-sans-serif, system-ui, sans-serif;
+  /* Typography
+   * heading — Switzer: page and section headings (H1–H3)
+   * lead    — Stack Sans Headline: supporting copy at 18px and up
+   * sans    — Stack Sans Text: body, UI, buttons, nav, forms
+   * accent  — Stack Sans Notch: numerals, eyebrows, badges (never paragraphs)
+   */
+  --font-heading: var(--font-switzer), ui-sans-serif, system-ui, sans-serif;
+  --font-lead: var(--font-stack-headline), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-stack-text), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-accent: var(--font-stack-notch), ui-sans-serif, system-ui, sans-serif;
 
-  /* Brand blue, sampled from the Ymagen mark (#1086c5, hue 201deg) */
-  --color-brand-300: #6dc4f2;
-  --color-brand-400: #38a9e8;
-  --color-brand-500: #1086c5;
-  --color-brand-600: #0b6da3;
-  --color-brand-700: #08557f;
+  /* Type scale */
+  --text-display: clamp(2.375rem, 1.1rem + 5vw, 5.5rem);
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.045em;
+  --text-statement: clamp(1.625rem, 1.1rem + 2.1vw, 3rem);
+  --text-statement--line-height: 1.12;
+  --text-statement--letter-spacing: -0.035em;
+  --text-title: clamp(2rem, 1.4rem + 2.2vw, 3.25rem);
+  --text-title--line-height: 1.05;
+  --text-title--letter-spacing: -0.04em;
+  --text-lead: clamp(1.0625rem, 1rem + 0.25vw, 1.25rem);
+  --text-lead--line-height: 1.5;
+  --text-lead--letter-spacing: -0.01em;
 
-  /* Canvas + ink */
-  --color-canvas: #03060b;
-  --color-ink-100: #eef5fb;
-  --color-ink-300: #b6c6d6;
-  --color-ink-500: #7e93a8;
-  --color-ink-700: #4a5a6b;
+  /* Brand blue — built around the primary #2767E3 (brand-500) */
+  --color-brand-50: #eef3fd;
+  --color-brand-100: #dbe6fb;
+  --color-brand-200: #bdd1f7;
+  --color-brand-300: #8fb1f1;
+  --color-brand-400: #5a8be9;
+  --color-brand-500: #2767e3;
+  --color-brand-600: #1c53c4;
+  --color-brand-700: #19439d;
+  --color-brand-800: #193a7e;
+  --color-brand-900: #183264;
+  --color-brand-950: #101f3e;
+
+  /* Neutrals */
+  --color-ink-50: #f6f7f8;
+  --color-ink-100: #eeeff1;
+  --color-ink-200: #e2e4e8;
+  --color-ink-300: #c6cad1;
+  --color-ink-400: #9ba1ab;
+  --color-ink-500: #6b717c;
+  --color-ink-600: #4c525c;
+  --color-ink-700: #363b43;
+  --color-ink-800: #23272d;
+  --color-ink-900: #15181c;
+  --color-ink-950: #0b0d10;
+
+  /* Surfaces */
+  --color-surface: #ffffff;
+  --color-panel: #f0f0f1;
+  --color-canvas: #03060b; /* dark surface (maintenance page) */
+
+  /* Radii */
+  --radius-panel: 2rem;
+  --radius-card: 1.5rem;
 
   --animate-rise: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-chevron: chevron 1.6s ease-in-out infinite;
+  --animate-marquee: marquee 32s linear infinite;
+  --animate-marquee-y: marquee-y 48s linear infinite;
+
+  /* Service icon motion: small, looping, purposeful */
+  --animate-icon-float: icon-float 3.2s ease-in-out infinite;
+  --animate-icon-pulse: icon-pulse 1.8s ease-in-out infinite;
+  --animate-icon-dart: icon-dart 2.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  --animate-icon-fan: icon-fan 3.4s ease-in-out infinite;
+  --animate-icon-click: icon-click 2.6s ease-in-out infinite;
+  --animate-icon-letter: icon-letter 3s ease-in-out infinite;
+
+  /* 404 page */
+  --animate-dart-miss: dart-miss 3.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  --animate-drift: drift 10s ease-in-out infinite;
 }
 
 @keyframes rise {
@@ -33,34 +94,169 @@
   }
 }
 
+@keyframes dart-miss {
+  0% {
+    transform: translate(90px, -90px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  30% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  36% {
+    transform: rotate(-7deg);
+  }
+  42% {
+    transform: rotate(5deg);
+  }
+  48% {
+    transform: rotate(-2deg);
+  }
+  54%,
+  85% {
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(0deg);
+    opacity: 0;
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(var(--dx, 12px), var(--dy, -16px));
+  }
+}
+
+@keyframes icon-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes icon-pulse {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes icon-dart {
+  0% {
+    transform: translate(22px, -22px);
+    opacity: 0;
+  }
+  30% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+  80% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes icon-fan {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(var(--fan, 0deg));
+  }
+}
+
+@keyframes icon-click {
+  0%,
+  100% {
+    transform: translate(16px, 14px);
+  }
+  40%,
+  60% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(0, 0) scale(0.82);
+  }
+}
+
+@keyframes icon-letter {
+  0%,
+  100% {
+    transform: translateY(12px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes marquee-y {
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Chevrons light up in sequence — money moving with direction. */
+@keyframes chevron {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
   }
 
   body {
-    background-color: var(--color-canvas);
-    color: var(--color-ink-100);
+    background-color: var(--color-surface);
+    color: var(--color-ink-950);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    /* The glow sits behind everything; never let it create a scrollbar. */
     overflow-x: hidden;
   }
 
   ::selection {
-    background-color: color-mix(in oklab, var(--color-brand-500) 45%, transparent);
-    color: #fff;
+    background-color: color-mix(in oklab, var(--color-brand-500) 30%, transparent);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-brand-400);
+    outline: 2px solid var(--color-brand-500);
     outline-offset: 2px;
     border-radius: 4px;
   }
 
   input::placeholder {
-    color: var(--color-ink-700);
+    color: var(--color-ink-500);
   }
 
   /* Hide the number-ish spinners some mobile browsers add to tel inputs */
@@ -71,6 +267,26 @@
   }
 }
 
+/* Blur text reveal (BlurText): words sharpen into place in sequence. */
+.blur-text .blur-word {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(12px);
+  transform: translateY(0.3em);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(var(--i, 0) * 55ms);
+  will-change: opacity, filter, transform;
+}
+
+.blur-text[data-revealed] .blur-word {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -78,5 +294,12 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .blur-text .blur-word {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    transition-delay: 0s !important;
   }
 }
